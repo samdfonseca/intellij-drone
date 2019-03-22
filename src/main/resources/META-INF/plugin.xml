@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.nytm.intellij-drone</id>
+    <name>NYTimes Drone</name>
+    <vendor email="sam.fonseca@nytimes.com" url="https://nytimes.github.io/intellij-drone" />
+
+    <description>Access Drone build information through IntelliJ</description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <idea-version since-build="145"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable instance="com.nytm.intellijDrone.DroneSettings" groupId="tools" groupWeight="130"
+                             displayName="Drone" />
+        <projectService serviceInterface="com.nytm.intellijDrone.DroneSettingsProvider"
+                        serviceImplementation="com.nytm.intellijDrone.DroneSettingsProvider" />
+        <toolWindow id="Repo Tree" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
+                    factoryClass="com.nytm.intellijDrone.RepoTreeToolWindowFactory" />
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
