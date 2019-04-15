@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 import okhttp3.Interceptor
 import okhttp3.Response

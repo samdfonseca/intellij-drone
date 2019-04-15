@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 import retrofit2.http.GET
 import retrofit2.http.Path

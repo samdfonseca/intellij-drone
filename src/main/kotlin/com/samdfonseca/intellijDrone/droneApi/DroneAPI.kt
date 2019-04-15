@@ -1,10 +1,10 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 import com.google.gson.GsonBuilder
-import com.nytm.intellijDrone.DroneSettings
-import com.nytm.intellijDrone.DroneSettingsProvider
-import com.nytm.intellijDrone.RunnableLambda
-import com.nytm.intellijDrone.getLogger
+import com.samdfonseca.intellijDrone.DroneSettings
+import com.samdfonseca.intellijDrone.DroneSettingsProvider
+import com.samdfonseca.intellijDrone.RunnableLambda
+import com.samdfonseca.intellijDrone.getLogger
 import java.util.concurrent.Future
 import java.util.concurrent.FutureTask
 import okhttp3.OkHttpClient

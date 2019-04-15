@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 import com.google.gson.annotations.SerializedName
 

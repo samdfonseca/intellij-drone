@@ -1,6 +1,6 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
-import com.nytm.intellijDrone.droneApi.DroneBuild
+import com.samdfonseca.intellijDrone.droneApi.DroneBuild
 import java.awt.Component
 import java.awt.Color
 import java.awt.Font

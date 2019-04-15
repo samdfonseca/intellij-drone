@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.openapi.wm.ToolWindow
 import javax.swing.*

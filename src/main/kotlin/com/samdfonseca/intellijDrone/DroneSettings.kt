@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent

@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Condition

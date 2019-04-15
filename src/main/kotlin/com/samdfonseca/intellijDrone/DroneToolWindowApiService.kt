@@ -1,6 +1,6 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
-import com.nytm.intellijDrone.droneApi.*
+import com.samdfonseca.intellijDrone.droneApi.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

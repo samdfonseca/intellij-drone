@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.credentialStore.PasswordSafeSettings
 import com.intellij.credentialStore.CredentialAttributes
@@ -11,7 +11,7 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.StoragePathMacros
 import com.intellij.openapi.project.Project
 import com.intellij.util.xmlb.annotations.Transient
-import com.nytm.intellijDrone.droneApi.DroneRepo
+import com.samdfonseca.intellijDrone.droneApi.DroneRepo
 
 
 @State(name = "DroneSettingsProvider", storages = [Storage(file = StoragePathMacros.WORKSPACE_FILE)])

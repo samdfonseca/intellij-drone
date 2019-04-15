@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.google.gson.GsonBuilder
 import retrofit2.Call

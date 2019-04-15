@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.nytm.intellij-drone</id>
-    <name>NYTimes Drone</name>
-    <vendor email="sam.fonseca@nytimes.com" url="https://nytimes.github.io/intellij-drone" />
+    <id>com.samdfonseca.intellij-drone</id>
+    <name>IntelliJ Drone</name>
+    <vendor email="sam.fonseca@nytimes.com" url="https://samdfonseca.github.io/intellij-drone" />
 
     <description>Access Drone build information through IntelliJ</description>
 
@@ -12,13 +12,13 @@
     <idea-version since-build="145"/>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectConfigurable instance="com.nytm.intellijDrone.DroneSettings" groupId="tools" groupWeight="130"
+        <projectConfigurable instance="com.samdfonseca.intellijDrone.DroneSettings" groupId="tools" groupWeight="130"
                              displayName="Drone" />
-        <projectService serviceInterface="com.nytm.intellijDrone.DroneSettingsProvider"
-                        serviceImplementation="com.nytm.intellijDrone.DroneSettingsProvider" />
+        <projectService serviceInterface="com.samdfonseca.intellijDrone.DroneSettingsProvider"
+                        serviceImplementation="com.samdfonseca.intellijDrone.DroneSettingsProvider" />
         <toolWindow id="Repo Tree" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
-                    factoryClass="com.nytm.intellijDrone.RepoTreeToolWindowFactory"
-                    conditionClass="com.nytm.intellijDrone.RepoTreeToolWindowCondition" />
+                    factoryClass="com.samdfonseca.intellijDrone.RepoTreeToolWindowFactory"
+                    conditionClass="com.samdfonseca.intellijDrone.RepoTreeToolWindowCondition" />
     </extensions>
 
     <actions>

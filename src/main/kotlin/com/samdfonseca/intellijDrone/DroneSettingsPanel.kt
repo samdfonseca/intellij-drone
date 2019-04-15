@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.openapi.util.Comparing.equal
 import javax.swing.JComponent

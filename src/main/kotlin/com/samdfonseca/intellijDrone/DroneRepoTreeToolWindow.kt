@@ -1,10 +1,10 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import com.intellij.execution.filters.TextConsoleBuilder
 import com.intellij.openapi.wm.ToolWindow
-import com.nytm.intellijDrone.droneApi.*
+import com.samdfonseca.intellijDrone.droneApi.*
 import retrofit2.Call
 import java.awt.event.ActionEvent
 import javax.swing.*
@@ -32,7 +32,7 @@ class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: 
     init {
         logger.debug("init-ing")
         this.availableReposComboBox.renderer = ReposListCellRenderer()
-        this.repoBuildsList.cellRenderer = BuildListCellRenderer()
+        this.repoBuildsList.cellRenderer = com.samdfonseca.intellijDrone.BuildListCellRenderer()
         this.repoBuildsList.selectionMode = ListSelectionModel.SINGLE_SELECTION
         this.repoBuildProcsComboBox.renderer = ProcsListCellRenderer()
         this.buildLogsButton.isEnabled = false

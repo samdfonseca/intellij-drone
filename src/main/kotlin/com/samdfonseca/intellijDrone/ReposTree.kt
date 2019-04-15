@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
 import com.intellij.ide.projectView.TreeStructureProvider
 import com.intellij.ide.util.treeView.AbstractTreeBuilder

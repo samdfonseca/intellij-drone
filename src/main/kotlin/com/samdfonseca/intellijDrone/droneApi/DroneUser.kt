@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 data class DroneUser(
     val active: Boolean,

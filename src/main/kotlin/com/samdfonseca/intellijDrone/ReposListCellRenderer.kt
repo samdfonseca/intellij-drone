@@ -1,6 +1,6 @@
-package com.nytm.intellijDrone
+package com.samdfonseca.intellijDrone
 
-import com.nytm.intellijDrone.droneApi.DroneRepo
+import com.samdfonseca.intellijDrone.droneApi.DroneRepo
 import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList

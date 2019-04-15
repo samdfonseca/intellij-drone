@@ -19,7 +19,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
-group 'com.nytm'
+group 'com.samdfonseca'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8

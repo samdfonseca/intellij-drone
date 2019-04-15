@@ -1,4 +1,4 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
 import java.util.*
 import org.apache.commons.lang3.builder.HashCodeBuilder

@@ -1,7 +1,7 @@
-package com.nytm.intellijDrone.droneApi
+package com.samdfonseca.intellijDrone.droneApi
 
-import com.nytm.intellijDrone.getLogger
-import com.nytm.intellijDrone.tsIntToInstant
+import com.samdfonseca.intellijDrone.getLogger
+import com.samdfonseca.intellijDrone.tsIntToInstant
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import retrofit2.Call
