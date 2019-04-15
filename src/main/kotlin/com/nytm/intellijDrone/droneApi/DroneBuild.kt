@@ -1,8 +1,11 @@
 package com.nytm.intellijDrone.droneApi
 
+import com.nytm.intellijDrone.getLogger
 import com.nytm.intellijDrone.tsIntToInstant
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
+import retrofit2.Call
+import retrofit2.Response
 import java.time.Instant
 
 data class DroneBuild(
@@ -36,6 +39,8 @@ data class DroneBuild(
     val title: String,
     val verified: Boolean
 ) {
+    private val logger = getLogger(this)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -113,4 +118,25 @@ data class DroneBuild(
     fun reviewedAtInstant() = tsIntToInstant(this.reviewed_at)
     fun startedAtInstant() = tsIntToInstant(this.started_at)
     fun timestampInstant() = tsIntToInstant(this.timestamp)
+
+    fun getRepo(droneAPI: DroneAPI, callback: (DroneRepo?) -> Unit) {
+        if (!droneAPI.hasRequiredSettings()) {
+            logger.debug("missing required Drone settings")
+            return
+        }
+        logger.debug("finding build ${this.number} repo")
+        droneAPI.getService().currentUserReposList().enqueue(object: retrofit2.Callback<Array<DroneRepo>> {
+            override fun onFailure(call: Call<Array<DroneRepo>>, t: Throwable) {
+                logger.debug("handling currentUserReposList failure")
+                logger.error(t.message)
+            }
+
+            override fun onResponse(call: Call<Array<DroneRepo>>, response: Response<Array<DroneRepo>>) {
+                logger.debug("handling currentUserReposList response")
+                val repos = response.body()
+                val matches = repos?.filter { it.clone_url == remote }
+                callback.invoke(matches?.firstOrNull())
+            }
+        })
+    }
 }

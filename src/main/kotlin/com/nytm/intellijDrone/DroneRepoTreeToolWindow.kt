@@ -1,11 +1,10 @@
 package com.nytm.intellijDrone
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
 import com.intellij.execution.filters.TextConsoleBuilder
-import com.nytm.intellijDrone.droneApi.DroneAPI
-import com.nytm.intellijDrone.droneApi.DroneAPIService
 import com.intellij.openapi.wm.ToolWindow
-import com.nytm.intellijDrone.droneApi.DroneBuild
-import com.nytm.intellijDrone.droneApi.DroneRepo
+import com.nytm.intellijDrone.droneApi.*
 import retrofit2.Call
 import java.awt.event.ActionEvent
 import javax.swing.*
@@ -14,9 +13,9 @@ import retrofit2.Response
 import javax.swing.event.ListSelectionEvent
 import javax.swing.event.ListSelectionListener
 
-class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: DroneSettingsProvider, private val consoleBuilder: TextConsoleBuilder) {
-    private val logger = getLogger(this)
+class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: DroneSettingsProvider, private val consoleBuilder: TextConsoleBuilder): Logger {
     private val droneAPI = DroneAPI(this.settings)
+    private val droneToolWindowApiService = DroneToolWindowApiService(this, droneAPI)
     lateinit var toolWindowPanel: JPanel
     lateinit var panelToolBar: JToolBar
     lateinit var refreshReposButton: JButton
@@ -26,37 +25,46 @@ class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: 
     lateinit var availableReposComboBox: JComboBox<DroneRepo>
     lateinit var repoBuildsScrollPane: JScrollPane
     lateinit var repoBuildsList: JList<DroneBuild>
+    lateinit var repoBuildProcsComboBox: JComboBox<DroneProc>
+    lateinit var repoBuildLogsScrollPane: JScrollPane
+    lateinit var repoBuildLogsList: JList<DroneLog>
 
     init {
         logger.debug("init-ing")
         this.availableReposComboBox.renderer = ReposListCellRenderer()
         this.repoBuildsList.cellRenderer = BuildListCellRenderer()
         this.repoBuildsList.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        this.repoBuildProcsComboBox.renderer = ProcsListCellRenderer()
         this.buildLogsButton.isEnabled = false
         this.availableReposComboBox.addActionListener { e: ActionEvent -> Unit
             logger.debug("availableReposComboBox ActionListener fired")
-            val selectedRepo = this.availableReposComboBox.selectedItem
-            if (selectedRepo != null) this.updateBuilds(selectedRepo as DroneRepo)
+            this.droneToolWindowApiService.setRepoBuilds(this.selectedRepo())
         }
         this.refreshReposButton.addActionListener {
-            this.updateAvailableRepos()
+            this.droneToolWindowApiService.setRepos(this.selectedRepo())
         }
         this.refreshBuildsButton.addActionListener {
-            this.updateBuilds(this.availableReposComboBox.selectedItem as DroneRepo)
+            this.droneToolWindowApiService.setRepoBuilds(this.availableReposComboBox.selectedItem as DroneRepo)
         }
         this.setProjectRepoButton.addActionListener {
-            this.settings.repo = (this.availableReposComboBox.selectedItem as DroneRepo).full_name
+            this.settings.repo = GsonBuilder().setLenient().create().toJson(this.selectedRepo())
         }
         this.buildLogsButton.addActionListener {
             // TODO: add build log console view
         }
-        this.repoBuildsList.addListSelectionListener {
-            if (this.repoBuildsList.selectedIndex != -1) {
-                this.buildLogsButton.isEnabled = true
-            }
+        this.repoBuildsList.addListSelectionListener { e: ListSelectionEvent -> Unit
+            if (!e.valueIsAdjusting) this.droneToolWindowApiService.setBuildProcs(this.selectedRepo(), this.selectedBuild())
         }
-        this.updateAvailableRepos()
+        try {
+            this.droneToolWindowApiService.setRepos(
+                GsonBuilder().setLenient().create().fromJson(this.settings.repo, DroneRepo::class.java))
+        } catch (err: JsonSyntaxException) {
+            logger.error(err)
+        }
     }
+
+    fun selectedRepo() = if (this.availableReposComboBox.selectedItem != null) this.availableReposComboBox.selectedItem as DroneRepo else null
+    fun selectedBuild() = this.repoBuildsList.selectedValue
 
     fun updateAvailableRepos() {
         if (!this.droneAPI.hasRequiredSettings()) {

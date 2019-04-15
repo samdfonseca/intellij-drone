@@ -11,18 +11,21 @@ interface DroneAPIService {
     @GET("/api/user/repos")
     fun currentUserReposList(): Call<Array<DroneRepo>>
 
-    @GET("/api/repos/{owner}/{name}")
-    fun repoInfo(@Path("owner") owner: String, @Path("name") name: String): Call<DroneRepo>
+    @GET("/api/repos/{repoOwner}/{repoName}")
+    fun repoInfo(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String): Call<DroneRepo>
 
-    @GET("/api/repos/{owner}/{name}/builds")
-    fun repoBuildsList(@Path("owner") owner: String, @Path("name") name: String): Call<Array<DroneBuild>>
+    @GET("/api/repos/{repoOwner}/{repoName}/builds")
+    fun repoBuildsList(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String): Call<Array<DroneBuild>>
 
-    @GET("/api/repos/{owner}/{name}/builds/{buildNumber}")
-    fun repoBuildInfo(@Path("owner") owner: String, @Path("name") name: String, @Path("buildNumber") buildNumber: Int): Call<DroneBuild>
+    @GET("/api/repos/{repoOwner}/{repoName}/builds/{buildNumber}")
+    fun repoBuildInfo(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String, @Path("buildNumber") buildNumber: Int): Call<DroneBuild>
 
-    @GET("/api/repos/{owner}/{name}/secrets")
-    fun repoSecretsList(@Path("owner") owner: String, @Path("name") name: String): Call<Array<DroneSecret>>
+    @GET("/api/repos/{repoOwner}/{repoName}/secrets")
+    fun repoSecretsList(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String): Call<Array<DroneSecret>>
 
-    @GET("/api/repos/{owner}/{name}/secrets/{secretName}")
-    fun repoSecretsList(@Path("owner") owner: String, @Path("name") name: String, @Path("secretName") secretName: String): Call<DroneRepo>
+    @GET("/api/repos/{repoOwner}/{repoName}/secrets/{secretName}")
+    fun repoSecretsList(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String, @Path("secretName") secretName: String): Call<DroneRepo>
+
+    @GET("/api/repos/{repoOwner}/{repoName}/logs/{buildNumber}/{pid}")
+    fun repoBuildLogs(@Path("repoOwner") repoOwner: String, @Path("repoName") repoName: String, @Path("buildNumber") buildNumber: Int, @Path("pid") pid: Int): Call<Array<DroneLog>>
 }

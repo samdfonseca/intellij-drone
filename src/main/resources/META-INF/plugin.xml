@@ -17,7 +17,8 @@
         <projectService serviceInterface="com.nytm.intellijDrone.DroneSettingsProvider"
                         serviceImplementation="com.nytm.intellijDrone.DroneSettingsProvider" />
         <toolWindow id="Repo Tree" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
-                    factoryClass="com.nytm.intellijDrone.RepoTreeToolWindowFactory" />
+                    factoryClass="com.nytm.intellijDrone.RepoTreeToolWindowFactory"
+                    conditionClass="com.nytm.intellijDrone.RepoTreeToolWindowCondition" />
     </extensions>
 
     <actions>
