@@ -10,10 +10,11 @@ import java.awt.event.ActionEvent
 import javax.swing.*
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 import javax.swing.event.ListSelectionEvent
 import javax.swing.event.ListSelectionListener
 
-class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: DroneSettingsProvider, private val consoleBuilder: TextConsoleBuilder): Logger {
+class DroneToolWindow(val toolWindow: ToolWindow, private val settings: DroneSettingsProvider, private val consoleBuilder: TextConsoleBuilder): Logger {
     private val droneAPI = DroneAPI(this.settings)
     private val droneToolWindowApiService = DroneToolWindowApiService(this, droneAPI)
     lateinit var toolWindowPanel: JPanel
@@ -32,9 +33,10 @@ class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: 
     init {
         logger.debug("init-ing")
         this.availableReposComboBox.renderer = ReposListCellRenderer()
-        this.repoBuildsList.cellRenderer = com.samdfonseca.intellijDrone.BuildListCellRenderer()
+        this.repoBuildsList.cellRenderer = BuildListCellRenderer()
         this.repoBuildsList.selectionMode = ListSelectionModel.SINGLE_SELECTION
         this.repoBuildProcsComboBox.renderer = ProcsListCellRenderer()
+        this.repoBuildLogsList.cellRenderer = BuildLogsCellRenderer()
         this.buildLogsButton.isEnabled = false
         this.availableReposComboBox.addActionListener { e: ActionEvent -> Unit
             logger.debug("availableReposComboBox ActionListener fired")
@@ -61,6 +63,12 @@ class DroneRepoTreeToolWindow(val toolWindow: ToolWindow, private val settings: 
         } catch (err: JsonSyntaxException) {
             logger.error(err)
         }
+
+        // TODO: add build logs
+        val buildLogsListModel = DefaultListModel<DroneLog>()
+        val dummyLog = DroneLog("Build logs go here", 0, "dummy", Optional.of(0))
+        buildLogsListModel.addElement(dummyLog)
+        this.repoBuildLogsList.model = buildLogsListModel
     }
 
     fun selectedRepo() = if (this.availableReposComboBox.selectedItem != null) this.availableReposComboBox.selectedItem as DroneRepo else null

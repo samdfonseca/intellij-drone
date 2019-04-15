@@ -6,7 +6,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.swing.DefaultListModel
 
-class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWindow, val droneAPI: DroneAPI): Logger {
+class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneAPI: DroneAPI): Logger {
     init {
         logger.debug("init-ing")
     }
@@ -17,7 +17,7 @@ class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWi
             return
         }
         logger.debug("setting repos")
-        val reposCB = this.droneRepoTreeToolWindow.availableReposComboBox
+        val reposCB = this.droneToolWindow.availableReposComboBox
         reposCB.removeAllItems()
         this.droneAPI.getService().currentUserReposList().enqueue(object : Callback<Array<DroneRepo>> {
             override fun onResponse(call: Call<Array<DroneRepo>>, response: Response<Array<DroneRepo>>) {
@@ -50,7 +50,7 @@ class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWi
             return
         }
         logger.debug("setting repo builds")
-        val repos = this.droneRepoTreeToolWindow.repoBuildsList
+        val repos = this.droneToolWindow.repoBuildsList
         val listModel = DefaultListModel<DroneBuild>()
         repos.model = listModel
         this.droneAPI.getService().repoBuildsList(selectedRepo.owner, selectedRepo.name).enqueue(object : Callback<Array<DroneBuild>> {
@@ -71,7 +71,7 @@ class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWi
 
     fun clearBuildProcs() {
         logger.debug("clearing repoBuildProcsComboBox")
-        this.droneRepoTreeToolWindow.repoBuildProcsComboBox.removeAllItems()
+        this.droneToolWindow.repoBuildProcsComboBox.removeAllItems()
     }
 
     fun setBuildProcs(repo: DroneRepo?, build: DroneBuild?) {
@@ -99,7 +99,7 @@ class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWi
                 logger.debug("handling repoBuildInfo response")
                 response.body()?.procs?.first()?.children?.forEach { proc: DroneProc -> Unit
                     logger.debug("adding ${repo.full_name} - ${build.number} - ${proc.name}")
-                    droneRepoTreeToolWindow.repoBuildProcsComboBox.addItem(proc)
+                    droneToolWindow.repoBuildProcsComboBox.addItem(proc)
                 }
             }
         })
@@ -112,7 +112,7 @@ class DroneToolWindowApiService(val droneRepoTreeToolWindow: DroneRepoTreeToolWi
         }
         logger.debug("tailing build ${build.number} logs")
         val listModel = DefaultListModel<DroneLog>()
-        this.droneRepoTreeToolWindow.repoBuildLogsList.model = listModel
+        this.droneToolWindow.repoBuildLogsList.model = listModel
         this.droneAPI.getService().repoBuildLogs(repo.owner, repo.name, build.number, proc.pid).enqueue(object: Callback<Array<DroneLog>> {
             override fun onFailure(call: Call<Array<DroneLog>>, t: Throwable) {
                 logger.debug("handling repoBuildLogs failure")

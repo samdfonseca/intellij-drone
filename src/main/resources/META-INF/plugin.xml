@@ -16,9 +16,9 @@
                              displayName="Drone" />
         <projectService serviceInterface="com.samdfonseca.intellijDrone.DroneSettingsProvider"
                         serviceImplementation="com.samdfonseca.intellijDrone.DroneSettingsProvider" />
-        <toolWindow id="Repo Tree" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
-                    factoryClass="com.samdfonseca.intellijDrone.RepoTreeToolWindowFactory"
-                    conditionClass="com.samdfonseca.intellijDrone.RepoTreeToolWindowCondition" />
+        <toolWindow id="Drone" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
+                    factoryClass="com.samdfonseca.intellijDrone.DroneToolWindowFactory"
+                    conditionClass="com.samdfonseca.intellijDrone.DroneToolWindowCondition" />
     </extensions>
 
     <actions>
