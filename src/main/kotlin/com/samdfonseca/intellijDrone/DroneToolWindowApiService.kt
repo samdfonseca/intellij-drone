@@ -12,11 +12,11 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
     }
 
     fun setRepos(selectedRepo: DroneRepo?) {
+        logger.debug("setting repos")
         if (!this.droneAPI.hasRequiredSettings()) {
             logger.warn("missing required Drone settings")
             return
         }
-        logger.debug("setting repos")
         val reposCB = this.droneToolWindow.availableReposComboBox
         reposCB.removeAllItems()
         this.droneAPI.getService().currentUserReposList().enqueue(object : Callback<Array<DroneRepo>> {
@@ -41,6 +41,7 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
     }
 
     fun setRepoBuilds(selectedRepo: DroneRepo?) {
+        logger.debug("setting repo builds")
         if (!this.droneAPI.hasRequiredSettings()) {
             logger.warn("missing required Drone settings")
             return
@@ -49,7 +50,6 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
             logger.warn("repo is null")
             return
         }
-        logger.debug("setting repo builds")
         val repos = this.droneToolWindow.repoBuildsList
         val listModel = DefaultListModel<DroneBuild>()
         repos.model = listModel
@@ -75,6 +75,7 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
     }
 
     fun setBuildProcs(repo: DroneRepo?, build: DroneBuild?) {
+        logger.debug("setting build procs")
         if (!this.droneAPI.hasRequiredSettings()) {
             logger.warn("missing required Drone settings")
             return
@@ -87,7 +88,6 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
             logger.warn("build is null")
             return
         }
-        logger.debug("setting build ${build.number} procs")
         this.clearBuildProcs()
         this.droneAPI.getService().repoBuildInfo(repo.owner, repo.name, build.number).enqueue(object: Callback<DroneBuild> {
             override fun onFailure(call: Call<DroneBuild>, t: Throwable) {
@@ -105,12 +105,29 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
         })
     }
 
-    fun tailBuildLogs(repo: DroneRepo, build: DroneBuild, proc: DroneProc) {
+    fun clearBuildLogs() {
+        logger.debug("clearing build logs")
+        this.droneToolWindow.repoBuildLogsList.model = DefaultListModel<DroneLog>()
+    }
+
+    fun tailBuildLogs(repo: DroneRepo?, build: DroneBuild?, proc: DroneProc?) {
+        logger.debug("tailing build logs")
         if (!this.droneAPI.hasRequiredSettings()) {
             logger.debug("missing required Drone settings")
             return
         }
-        logger.debug("tailing build ${build.number} logs")
+        if (repo == null) {
+            logger.warn("repo is null")
+            return
+        }
+        if (build == null) {
+            logger.warn("build is null")
+            return
+        }
+        if (proc == null) {
+            logger.warn("proc is null")
+            return
+        }
         val listModel = DefaultListModel<DroneLog>()
         this.droneToolWindow.repoBuildLogsList.model = listModel
         this.droneAPI.getService().repoBuildLogs(repo.owner, repo.name, build.number, proc.pid).enqueue(object: Callback<Array<DroneLog>> {
@@ -122,7 +139,12 @@ class DroneToolWindowApiService(val droneToolWindow: DroneToolWindow, val droneA
             override fun onResponse(call: Call<Array<DroneLog>>, response: Response<Array<DroneLog>>) {
                 logger.debug("handling repoBuildLogs success")
                 val logs = response.body()
-                listModel.addAll(logs?.sliceArray(IntRange(listModel.size(), logs.size))?.asList())
+                if (logs == null) {
+                    logger.warn("response body null")
+                    return
+                }
+                listModel.ensureCapacity(logs.size)
+                logs.forEach { listModel.addElement(it) }
             }
         })
     }

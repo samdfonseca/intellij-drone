@@ -32,8 +32,4 @@ class DroneAPI(val settings: DroneSettingsProvider) {
     fun hasRequiredSettings(): Boolean {
         return this.settings.server != "" && this.settings.token != ""
     }
-
-//    fun currentUserInfo(): Future<DroneUser> {
-//        val futureTask = FutureTask<DroneUser>(RunnableLambda { this.getService().currentUserInfo().execute().body() }, null)
-//    }
 }
