@@ -3,9 +3,14 @@ package com.samdfonseca.intellijDrone
 import com.intellij.execution.filters.TextConsoleBuilder
 import com.intellij.openapi.wm.ToolWindow
 import com.samdfonseca.intellijDrone.droneApi.*
-import com.samdfonseca.intellijDrone.settings.DroneSettingsProvider
+import retrofit2.Call
+import java.awt.event.ActionEvent
 import javax.swing.*
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
 import javax.swing.event.ListSelectionEvent
+import javax.swing.event.ListSelectionListener
 
 class DroneToolWindow(val toolWindow: ToolWindow, private val settings: DroneSettingsProvider, private val consoleBuilder: TextConsoleBuilder): Logger {
     private val droneAPI = DroneAPI(this.settings)

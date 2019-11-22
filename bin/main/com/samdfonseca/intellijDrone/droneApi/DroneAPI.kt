@@ -1,11 +1,13 @@
 package com.samdfonseca.intellijDrone.droneApi
 
-import com.intellij.openapi.util.text.StringUtil
 import com.google.gson.GsonBuilder
-import com.samdfonseca.intellijDrone.settings.DroneSettingsProvider
+import com.samdfonseca.intellijDrone.DroneSettings
+import com.samdfonseca.intellijDrone.DroneSettingsProvider
+import com.samdfonseca.intellijDrone.RunnableLambda
 import com.samdfonseca.intellijDrone.getLogger
+import java.util.concurrent.Future
+import java.util.concurrent.FutureTask
 import okhttp3.OkHttpClient
-import okhttp3.Cache
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,12 +15,12 @@ class DroneAPI(val settings: DroneSettingsProvider) {
     private val logger = getLogger(this)
 
     fun getService(): DroneAPIService {
-        logger.debug("getting DroneAPIService - server:${this.settings.state.server}  token:${this.settings.state.token?.substring(0, 8)}...")
+        logger.debug("getting DroneAPIService - server:${this.settings.server}  token:${this.settings.token.substring(0, 8)}...")
         val client = OkHttpClient.Builder()
-            .addInterceptor(DroneAccessTokenInterceptor(this.settings.state.token ?: ""))
+            .addInterceptor(DroneAccessTokenInterceptor(this.settings.token))
             .build()
         return Retrofit.Builder()
-            .baseUrl(this.settings.state.server ?: "")
+            .baseUrl(this.settings.server)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
                 .setLenient()
                 .create()))
@@ -28,6 +30,6 @@ class DroneAPI(val settings: DroneSettingsProvider) {
     }
 
     fun hasRequiredSettings(): Boolean {
-        return this.settings.state.server != "" && this.settings.state.token != ""
+        return this.settings.server != "" && this.settings.token != ""
     }
 }

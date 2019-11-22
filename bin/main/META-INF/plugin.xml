@@ -9,32 +9,16 @@
          on how to target different products -->
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
-    <idea-version since-build="191"/>
+    <idea-version since-build="145"/>
 
-    <application-components>
-    </application-components>
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable
-                id="drone"
-                instance="com.samdfonseca.intellijDrone.settings.DroneSettings"
-                groupId="tools"
-                groupWeight="130"
-                displayName="Drone" />
-        <applicationService
-                serviceImplementation="com.samdfonseca.intellijDrone.settings.DroneSettingsProvider" />
-        <projectConfigurable
-                parentId="drone"
-                id="drone.project"
-                instance="com.samdfonseca.intellijDrone.settings.DroneProjectSettings"
-                groupId="tools"
-                groupWeight="130"
-                displayName="Drone" />
-        <projectService
-                serviceImplementation="com.samdfonseca.intellijDrone.settings.DroneProjectSettingsProvider" />
+        <projectConfigurable instance="com.samdfonseca.intellijDrone.settings.DroneSettings" groupId="tools" groupWeight="130"
+                             displayName="Drone" />
+        <projectService serviceInterface="com.samdfonseca.intellijDrone.settings.DroneSettingsProvider"
+                        serviceImplementation="com.samdfonseca.intellijDrone.settings.DroneSettingsProvider" />
         <toolWindow id="Drone" secondary="true" icon="/repoTreeToolWindow/plus.png" anchor="right"
                     factoryClass="com.samdfonseca.intellijDrone.DroneToolWindowFactory"
                     conditionClass="com.samdfonseca.intellijDrone.DroneToolWindowCondition" />
-<!--        <toolWindow id="Drone.Project"-->
     </extensions>
 
     <actions>

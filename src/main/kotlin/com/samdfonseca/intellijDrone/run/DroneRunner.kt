@@ -6,6 +6,8 @@ import com.intellij.execution.runners.DefaultProgramRunner
 import com.intellij.openapi.diagnostic.Logger
 
 class DroneRunner : DefaultProgramRunner() {
+    override fun getRunnerId(): String = "DroneRunner"
+
     override fun canRun(executorId: String, profile: RunProfile): Boolean {
         return executorId == DefaultRunExecutor.EXECUTOR_ID
     }

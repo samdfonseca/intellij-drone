@@ -7,11 +7,12 @@ import javax.swing.JTextField
 import retrofit2.Callback
 import java.time.Instant
 
-val safePassword: JPasswordField.() -> String = {
+
+val safePassword: JPasswordField.() -> CharArray = {
     try {
-        (this.password ?: CharArray(0)).joinToString("")
+        this.password
     } catch (e: NullPointerException) {
-        ""
+        CharArray(0)
     }
 }
 
@@ -21,24 +22,6 @@ val safeText: JTextField.() -> String = {
     } catch (e: NullPointerException) {
         ""
     }
-}
-
-fun String?.loggableSecret(): String {
-    val len = this?.length ?: 0
-    val hidden = if (len > 4) len - (len / 4) else len
-    return this?.substring(hidden)?.padStart(len, '*') ?: ""
-}
-
-fun String?.hideSecrets(vararg secrets: String?): String = arrayOf(this ?: "", *secrets)
-    .filterNotNull()
-    .filterNot { it == "" }
-    .reduce { acc: String, s: String -> acc.replace(s, s.loggableSecret()) }
-
-fun Any?.logger(): com.intellij.openapi.diagnostic.Logger {
-    if (this == null) {
-        return com.intellij.openapi.diagnostic.Log4jBasedLogger.getInstance("<null>")
-    }
-    return com.intellij.openapi.diagnostic.Log4jBasedLogger.getInstance(this::class.java.name)
 }
 
 fun getLogger(instance: Any): org.apache.logging.log4j.Logger {
