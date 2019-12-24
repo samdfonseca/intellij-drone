@@ -8,11 +8,10 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 import com.samdfonseca.intellijDrone.settings.DroneSettingsProvider
 
-class DroneToolWindowFactory : ToolWindowFactory {
+class DroneToolWindowFactory(val settingsProvider: DroneSettingsProvider) : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val settings = DroneSettingsProvider()
         val textConsoleBuilder = TextConsoleBuilderFactoryImpl.getInstance().createBuilder(project) as TextConsoleBuilderImpl
-        val repoTreeToolWindow = DroneToolWindow(toolWindow, settings, textConsoleBuilder)
+        val repoTreeToolWindow = DroneToolWindow(toolWindow, settingsProvider, textConsoleBuilder)
         val contentFactory = ContentFactory.SERVICE.getInstance()
         val content = contentFactory.createContent(repoTreeToolWindow.getContent(), "", false)
         toolWindow.contentManager.addContent(content)

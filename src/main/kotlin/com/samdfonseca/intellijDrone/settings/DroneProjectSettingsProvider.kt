@@ -1,15 +1,20 @@
 package com.samdfonseca.intellijDrone.settings
 
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.components.StoragePathMacros
+import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
 import com.samdfonseca.intellijDrone.logger
+import org.jdom.Element
+import com.intellij.util.xmlb.XmlSerializer.deserializeInto
 
-@State(name = "DroneProjectSettingsProvider")
+@com.intellij.openapi.components.State(name = "DroneProjectSettingsProvider", storages = [
+    Storage(StoragePathMacros.WORKSPACE_FILE),
+    Storage(value = "drone.xml")
+])
 class DroneProjectSettingsProvider(val project: Project)
-    : PersistentStateComponent<DroneProjectSettingsProvider.State>, ProjectComponent {
+    : PersistentStateComponent<DroneProjectSettingsProvider.State> {
     data class State (
         var repo: String? = null
     )

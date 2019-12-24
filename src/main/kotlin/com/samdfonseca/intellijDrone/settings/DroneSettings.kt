@@ -4,7 +4,7 @@ import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent
 
 
-class DroneSettings : SearchableConfigurable {
+class DroneSettings(val settingsProvider: DroneSettingsProvider) : SearchableConfigurable {
     val panel = DroneSettingsPanel()
 
     override fun getDisplayName(): String  = "Drone"
@@ -17,6 +17,7 @@ class DroneSettings : SearchableConfigurable {
     override fun disposeUIResources() {}
 
     override fun createComponent(): JComponent? {
-        return this.panel.createPanel(DroneSettingsProvider())
+        this.settingsProvider.secretsStorage = StoredSecrets("com.samdfonseca.intellij-drone")
+        return this.panel.createPanel(this.settingsProvider)
     }
 }

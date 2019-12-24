@@ -34,11 +34,10 @@ fun String?.hideSecrets(vararg secrets: String?): String = arrayOf(this ?: "", *
     .filterNot { it == "" }
     .reduce { acc: String, s: String -> acc.replace(s, s.loggableSecret()) }
 
-fun Any?.logger(): com.intellij.openapi.diagnostic.Logger {
-    if (this == null) {
-        return com.intellij.openapi.diagnostic.Log4jBasedLogger.getInstance("<null>")
-    }
-    return com.intellij.openapi.diagnostic.Log4jBasedLogger.getInstance(this::class.java.name)
+fun String?.nullIfEmpty(): String? = if (this != "") this else null
+
+fun Any?.logger(): org.apache.logging.log4j.Logger {
+    return getLogger(this ?: "<null>")
 }
 
 fun getLogger(instance: Any): org.apache.logging.log4j.Logger {
